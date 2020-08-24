@@ -1,2 +1,2 @@
 # pokebot
-# pokebot
+Bot for playing pokemon TCG Online

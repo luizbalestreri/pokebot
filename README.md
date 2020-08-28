@@ -1,5 +1,7 @@
 # pokebot
-Bot para jogar automaticamente o modo legado. O bot desiste automaticamnete quando o jogador perde na moeda.
+Portuguese only supported, other languages will be supported in the future. If you want to use, your game must be in portuguese.
+
+Bot para jogar automaticamente o modo legado. O bot desiste automaticamente quando o jogador perde na moeda.
 
 Estou fazendo esse trabalho voluntariamente, sem receber nada por isso, no entanto eu trabalho e estudo e preciso dedicar tempo para isso, por isso considere realizar uma doação em dinheiro ou em pacotes para ajudar a continuar com o trabalho.
 

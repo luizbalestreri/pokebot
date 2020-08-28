@@ -5,6 +5,8 @@ Estou fazendo esse trabalho voluntariamente, sem receber nada por isso, no entan
 
 Para realizar uma doação de qualquer quantia, seja em booster packs ou dinheiro entre em contato comigo pelo discord luizbales#9442 ou por email: balesss@gmail.com
 
+Faça download em: https://github.com/luizbalestreri/pokebot/releases/tag/1.0
+
 Futuras implementações:
 
 - Instalação com menos arquivos e menor tamanho

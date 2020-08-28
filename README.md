@@ -8,7 +8,7 @@ Para realizar uma doação de qualquer quantia, seja em booster packs ou dinheir
 Futuras implementações:
 
 - Instalação com menos arquivos e menor tamanho
-- Resolver bgs
+- Resolver bugs
 - Maiores funcionalidades: 
 * Utilizar mais deu um cliente por vez
 * Maior personalização
@@ -25,6 +25,12 @@ Modo de usar:
 
 Abra o pokemon tcg online e faça login. Entre no modo versus e deixe pronto pra jogar legado.
 
-O pokemon tcg online precisa estar no modo janela e na resolução 
+O pokemon tcg online precisa estar no modo janela e na resolução 1600 x 900. Antes de abrir o bot é preciso que o pokemon esteja aberto e maximizado.
 
 Abra o arquivo app.exe
+
+Escolha entre cara ou coroa e apertar Start
+
+Caso o bot mova para o botão jogar na primeira vez e não comece, clique em Jogar que dai em diante irá funcionar.
+
+Para parar é só fechar a janela do bot, ou apertar em Stop

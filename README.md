@@ -35,6 +35,9 @@ Abra o arquivo app.exe
 
 Escolha entre cara ou coroa e apertar Start
 
+!! A janela do jogo deve estar visivel o tempo inteiro, o bot simula o clique do mouse nele. 
+!! !! Importate, após iniciado o bot, não mexa a janela do pokemon de lugar (não arraste ela), caso contrário o sistema do coordenadas do bot irá se perder. Se precisar mexer a janela de lugar, feche o bot e abra novamente.
+
 Caso o bot mova para o botão jogar na primeira vez e não comece, clique em Jogar que dai em diante irá funcionar.
 
 Para parar é só fechar a janela do bot, ou apertar em Stop

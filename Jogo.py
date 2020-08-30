@@ -1,12 +1,8 @@
 import numpy as np
-import cv2
-import time
+import time, random, cv2
 import pyautogui
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
 from WindowCapture import WindowCapture
-from PIL import ImageGrab
 
 
 
@@ -16,8 +12,11 @@ class Jogo(QThread):
     wincap = None
     processed_img = None
     pos = (0,0)
-    isHeads = False
+    isHeads = 0
     tempoEspera = 60
+    sendMsg = False
+    resolutionsEnum = ( 1, 0.8, 1.2)
+    resolutionIndex = 0
 
     def __init__(self, parent= None):
         QThread.__init__(self, parent)
@@ -27,17 +26,29 @@ class Jogo(QThread):
         pyautogui.FAILSAFE = True
         self.tempImage = None
 
+    def resize(self, img):
+        print(img.shape[0])
+        print(img.shape[1])
+        newResolutionW = (img.shape[0] * self.resolutionsEnum[self.resolutionIndex])
+        newResolutionH = (img.shape[1] * self.resolutionsEnum[self.resolutionIndex])
+        print (newResolutionW, newResolutionH)
+        return cv2.resize(img, (int(newResolutionW), int(newResolutionH)))
 
     def run(self):
         print(self.isHeads)
         self.Jogar()
 
-    def render(self, isHeads):
+    def render(self, isHeads, resolution, waitTime, sendMsg):
         self.isHeads = isHeads
+        self.resolutionIndex = resolution
+        self.tempoEspera = waitTime
+        self.sendMsg = sendMsg
         self.start()
    
     def SearchImage(self, img):
         self.screenshot = self.wincap.get_screenshot()
+        if self.resolutionIndex > 0:
+            self.screenshot = self.resize(self.screenshot)
         self.processed_img = self.CannyIt(self.screenshot)
         self.img_np = np.array(self.screenshot)
         img = self.CannyIt(img)
@@ -48,7 +59,7 @@ class Jogo(QThread):
         max_val_ncc = '{:.3f}'.format(max_val)
         xx = max_loc[0]
         yy = max_loc[1]
-        return xx + self.pos[0] + 4, yy + self.pos[1] + 4, max_val_ncc
+        return xx + self.pos[0] + ww/2, yy + self.pos[1] + hh/2, max_val_ncc
 
     def Jogar(self):
         self.NovaPartida()
@@ -60,8 +71,19 @@ class Jogo(QThread):
             if (float(self.confidenceValue) > 0.9):
                 pyautogui.moveTo(self.x, self.y)
                 pyautogui.click()
-                break       
+                break
+            self.TestarFinalizar()       
         self.WhoWon()
+
+    def TestarFinalizar(self):
+        btnFinalizar = cv2.imread("img/btnFinalizar.png")
+        print("testando finalizar")
+        x, y, confidenceValue = self.SearchImage(btnFinalizar)
+        print(confidenceValue)
+        if float(confidenceValue) > 0.8:
+            pyautogui.moveTo(x,y)
+            pyautogui.click()
+            self.NovaPartida()
 
     def WhoWon(self):
         txtPeca = cv2.imread("img/txtPecaQueAMoeda.png")
@@ -113,13 +135,7 @@ class Jogo(QThread):
                 pyautogui.moveTo(x,y)
                 pyautogui.click()
                 break
-            print("testando finalizar")
-            x, y, confidenceValue = self.SearchImage(btnFinalizar)
-            print(confidenceValue)
-            if float(confidenceValue) > 0.8:
-                pyautogui.moveTo(x,y)
-                pyautogui.click()
-                self.NovaPartida()
+            self.TestarFinalizar()
         while(True):
             print("clicando botao render-se")
             x, y, confidenceValue = self.SearchImage(btnRender)
@@ -128,13 +144,7 @@ class Jogo(QThread):
                 pyautogui.moveTo(x,y)
                 pyautogui.click()
                 break
-            print("testando finalizar")
-            x, y, confidenceValue = self.SearchImage(btnFinalizar)
-            print(confidenceValue)
-            if float(confidenceValue) > 0.8:
-                pyautogui.moveTo(x,y)
-                pyautogui.click()
-                self.NovaPartida()
+            self.TestarFinalizar()
         while(True):
             print("clicando botao sim")
             x, y, confidenceValue = self.SearchImage(btnSim)
@@ -143,13 +153,7 @@ class Jogo(QThread):
                 pyautogui.moveTo(x,y)
                 pyautogui.click()
                 break
-            print("testando finalizar")
-            x, y, confidenceValue = self.SearchImage(btnFinalizar)
-            print(confidenceValue)
-            if float(confidenceValue) > 0.8:
-                pyautogui.moveTo(x,y)
-                pyautogui.click()
-                self.NovaPartida()
+            self.TestarFinalizar()
         while(True):
             print("clicando finalizar")
             x, y, confidenceValue = self.SearchImage(btnFinalizar)
@@ -161,9 +165,13 @@ class Jogo(QThread):
         self.NovaPartida()
 
     def HeadsOrTails(self):
-        if self.isHeads:
+        if self.isHeads == 0:
             tempImage = cv2.imread("img/btnCara.png")
-        else: tempImage = cv2.imread("img/btnCoroa.png")
+        elif self.isHeads == 1: tempImage = cv2.imread("img/btnCoroa.png")
+        else: 
+            if random.randrange(1) == 1:
+                tempImage = cv2.imread("img/btnCara.png")
+            else: tempImage = cv2.imread("img/btnCoroa.png")
         while(True):
             x, y, confidence = self.SearchImage(tempImage)
             if (float(confidence) > 0.8): 

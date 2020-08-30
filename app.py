@@ -1,13 +1,16 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from Jogo import Jogo
-import sys, time, logging
+import sys
 
 class MyWindow(QMainWindow):
     def __init__(self):
         super(MyWindow, self).__init__()
-        self.setFixedSize(320, 200)
-        self.setWindowTitle("Pokebot")
+        self.setFixedSize(300, 450)
+        self.move(0, 10)
+        self.setWindowTitle("LegadoBot")
+        self.setWindowFlags(QtCore.Qt.Window | QtCore.Qt.WindowStaysOnTopHint)
+        #self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.initUI()
         self.thread = Jogo()
    

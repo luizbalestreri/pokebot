@@ -2,7 +2,6 @@ import numpy as np
 import cv2
 import time
 import pyautogui
-import StateMachine as sm
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -21,6 +20,8 @@ wincap = WindowCapture('Pokemon Trading Card Game Online')
 pos = WindowCapture.get_screen_position(wincap, pos)
 pyautogui.FAILSAFE = True
 tempImage = None
+pathImg = "img/"
+pathImg1280 = "img1280/"
 txtPeca = cv2.imread("img/txtPecaQueAMoeda.png")
 
 def CannyIt(img):
@@ -32,9 +33,14 @@ def SearchImage(img):
     print()
 while(True):
     ss = wincap.get_screenshot()
-    sim = CannyIt(cv2.imread("img/btnSim.png"))
-    cv2.imshow("", CannyIt(ss))
-    cv2.imshow("sim", sim)
+    print(ss.shape)
+    btnJogar = cv2.imread("img1280/btnJogar.png")
+    btnJogarCanny = CannyIt(btnJogar)
+    w = int(btnJogar.shape[1]* 0.85) 
+    h = int(btnJogar.shape[0]* 0.85)
+    #btnJogar = cv2.resize(btnJogar, (w,h))
+    cv2.imshow("", ss)
+    cv2.imshow("sim", btnJogar)
     cv2.waitKey(1)
     #cv2.imshow("teste", txtEnemyDecidindo)
 

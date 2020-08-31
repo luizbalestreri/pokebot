@@ -15,7 +15,10 @@ class Jogo(QThread):
     isHeads = 0
     tempoEspera = 60
     sendMsg = False
-    resolutionsEnum = ( 1, 0.8, 1.2)
+    #constants
+    pathImg = "img/"
+    pathImg1280 = "img1280/"
+    resolutionsEnum = ( 1, 0.85, 1.2)
     resolutionIndex = 0
 
     def __init__(self, parent= None):
@@ -26,13 +29,11 @@ class Jogo(QThread):
         pyautogui.FAILSAFE = True
         self.tempImage = None
 
-    def resize(self, img):
-        print(img.shape[0])
-        print(img.shape[1])
-        newResolutionW = (img.shape[0] * self.resolutionsEnum[self.resolutionIndex])
-        newResolutionH = (img.shape[1] * self.resolutionsEnum[self.resolutionIndex])
-        print (newResolutionW, newResolutionH)
-        return cv2.resize(img, (int(newResolutionW), int(newResolutionH)))
+    def Concat(self, str):
+        if (self.resolutionIndex == 0):
+            return ("img/" + str)
+        elif (self.resolutionIndex == 1):
+            return ("img1280/" + str)
 
     def run(self):
         print(self.isHeads)
@@ -47,8 +48,6 @@ class Jogo(QThread):
    
     def SearchImage(self, img):
         self.screenshot = self.wincap.get_screenshot()
-        if self.resolutionIndex > 0:
-            self.screenshot = self.resize(self.screenshot)
         self.processed_img = self.CannyIt(self.screenshot)
         self.img_np = np.array(self.screenshot)
         img = self.CannyIt(img)
@@ -61,14 +60,23 @@ class Jogo(QThread):
         yy = max_loc[1]
         return xx + self.pos[0] + ww/2, yy + self.pos[1] + hh/2, max_val_ncc
 
+    def BelaJogada(self):
+        sizeXY = (self.wincap.get_screenshot().shape[1], self.wincap.get_screenshot().shape[0])
+        pyautogui.moveTo((sizeXY[0] + self.pos[0]) - 20, (sizeXY[1] + self.pos[1]) - 20)
+        pyautogui.click()
+        msgBox = cv2.imread(self.Concat("msgBox.png"))
+        xxx, yyy, confidence = self.SearchImage(msgBox)
+        pyautogui.moveTo(xxx, yyy - int(msgBox.shape[0]/4.5))
+        pyautogui.click()
+        
     def Jogar(self):
         self.NovaPartida()
 
     def NovaPartida(self):
-        btnJogar = cv2.imread("img/btnJogar.png")
+        btnJogar = cv2.imread(self.Concat("btnJogar.png"))
         while(True):
             self.x, self.y, self.confidenceValue = self.SearchImage(btnJogar)
-            if (float(self.confidenceValue) > 0.9):
+            if (float(self.confidenceValue) > 0.85):
                 pyautogui.moveTo(self.x, self.y)
                 pyautogui.click()
                 break
@@ -76,7 +84,7 @@ class Jogo(QThread):
         self.WhoWon()
 
     def TestarFinalizar(self):
-        btnFinalizar = cv2.imread("img/btnFinalizar.png")
+        btnFinalizar = cv2.imread(self.Concat("btnFinalizar.png"))
         print("testando finalizar")
         x, y, confidenceValue = self.SearchImage(btnFinalizar)
         print(confidenceValue)
@@ -86,9 +94,9 @@ class Jogo(QThread):
             self.NovaPartida()
 
     def WhoWon(self):
-        txtPeca = cv2.imread("img/txtPecaQueAMoeda.png")
-        txtVocePerdeu = cv2.imread("img/txtVocePerdeuMoeda.png")
-        txtVoceVenceu = cv2.imread("img/txtVoceVenceuMoeda.png")
+        txtPeca = cv2.imread(self.Concat("btnCoroa.png"))
+        txtVocePerdeu = cv2.imread(self.Concat("txtVocePerdeuMoeda.png"))
+        txtVoceVenceu = cv2.imread(self.Concat("txtVoceVenceuMoeda.png"))
         while(True):
             print("testando quem joga a moeda")
             x, y, confidenceValue = self.SearchImage(txtPeca)
@@ -97,16 +105,20 @@ class Jogo(QThread):
             x, y, confidenceValue = self.SearchImage(txtVocePerdeu)
             if (float(confidenceValue) > 0.8):
                 print("eu perdi")
+                if(sendMsg):
+                    self.BelaJogada()
                 self.PlayerLose()
                 break
             x, y, confidenceValue = self.SearchImage(txtVoceVenceu)
             if (float(confidenceValue) > 0.8):
                 print("eu venci")
+                if(sendMsg):
+                    self.BelaJogada()
                 self.PlayerWon()
                 break
     
     def PlayerWon(self): 
-        btnFinalizar = cv2.imread("img/btnFinalizar.png")
+        btnFinalizar = cv2.imread(self.Concat("/btnFinalizar.png"))
         StartTime = time.time()
         while(time.time() - StartTime < self.tempoEspera):
             print("esperando tempo")
@@ -123,10 +135,10 @@ class Jogo(QThread):
         self.Desistir()
 
     def Desistir(self):
-        btnSettings = cv2.imread("img/btnSettings.png")
-        btnRender = cv2.imread("img/btnRender.png")
-        btnSim = cv2.imread("img/btnSim.png")
-        btnFinalizar = cv2.imread("img/btnFinalizar.png")    
+        btnSettings = cv2.imread(self.Concat("btnSettings.png"))
+        btnRender = cv2.imread(self.Concat("btnRender.png"))
+        btnSim = cv2.imread(self.Concat("btnSim.png"))
+        btnFinalizar = cv2.imread(self.Concat("btnFinalizar.png"))    
         while(True):
             print("desistindo")
             x, y, confidenceValue = self.SearchImage(btnSettings)
@@ -166,12 +178,12 @@ class Jogo(QThread):
 
     def HeadsOrTails(self):
         if self.isHeads == 0:
-            tempImage = cv2.imread("img/btnCara.png")
-        elif self.isHeads == 1: tempImage = cv2.imread("img/btnCoroa.png")
+            tempImage = cv2.imread(self.Concat("btnCara.png"))
+        elif self.isHeads == 1: tempImage = cv2.imread(self.Concat("btnCoroa.png"))
         else: 
             if random.randrange(1) == 1:
-                tempImage = cv2.imread("img/btnCara.png")
-            else: tempImage = cv2.imread("img/btnCoroa.png")
+                tempImage = cv2.imread(self.Concat("btnCara.png"))
+            else: tempImage = cv2.imread(self.Concat("btnCoroa.png"))
         while(True):
             x, y, confidence = self.SearchImage(tempImage)
             if (float(confidence) > 0.8): 

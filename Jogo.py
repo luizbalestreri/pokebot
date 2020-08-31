@@ -105,14 +105,14 @@ class Jogo(QThread):
             x, y, confidenceValue = self.SearchImage(txtVocePerdeu)
             if (float(confidenceValue) > 0.8):
                 print("eu perdi")
-                if(sendMsg):
+                if(self.sendMsg):
                     self.BelaJogada()
                 self.PlayerLose()
                 break
             x, y, confidenceValue = self.SearchImage(txtVoceVenceu)
             if (float(confidenceValue) > 0.8):
                 print("eu venci")
-                if(sendMsg):
+                if(self.sendMsg):
                     self.BelaJogada()
                 self.PlayerWon()
                 break

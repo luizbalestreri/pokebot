@@ -7,7 +7,7 @@ Estou fazendo esse trabalho voluntariamente, sem receber nada por isso, no entan
 
 Para realizar uma doação de qualquer quantia, seja em booster packs ou dinheiro entre em contato comigo pelo discord luizbales#9442 ou por email: balesss@gmail.com
 
-Faça download em: https://drive.google.com/file/d/1fCPyqMYmnOUDRAt_Lsof-3AmEimKbWLk/view?usp=sharing
+Faça download em: https://drive.google.com/file/d/1-qysRouIBCqDMCHk5trCh3X1L7jqgSbR/view?usp=sharing
 
 Futuras implementações:
 

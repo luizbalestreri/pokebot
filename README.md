@@ -2,6 +2,7 @@
 Portuguese only supported, other languages will be supported in the future. If you want to use, your game must be in portuguese.
 
 GRUPO NO DISCORD: https://discord.gg/efpY2xe
+
 FUNCIONAMENTO DO BOT: https://www.youtube.com/watch?v=knLyVvQdzWw&lc=UgwXUoCSdJnx--P5JXt4AaABAg
 
 Bot para jogar automaticamente o modo legado. O bot desiste automaticamente quando o jogador perde na moeda.

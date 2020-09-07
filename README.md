@@ -1,13 +1,13 @@
-# pokebot
+# Legadobot
 Portuguese only supported, other languages will be supported in the future. If you want to use, your game must be in portuguese.
 
 Bot para jogar automaticamente o modo legado. O bot desiste automaticamente quando o jogador perde na moeda.
 
 Estou fazendo esse trabalho voluntariamente, sem receber nada por isso, no entanto eu trabalho e estudo e preciso dedicar tempo para isso, por isso considere realizar uma doação em dinheiro ou em pacotes para ajudar a continuar com o trabalho.
 
-Para realizar uma doação de qualquer quantia, seja em booster packs ou dinheiro entre em contato comigo pelo discord luizbales#9442 ou por email: balesss@gmail.com
+Para realizar uma doação de qualquer quantia, seja em booster packs ou dinheiro entre em contato comigo pelo discord luizbales#9442 ou por email: legadobot@gmail.com
 
-Faça download em: https://drive.google.com/file/d/1-qysRouIBCqDMCHk5trCh3X1L7jqgSbR/view?usp=sharing
+Faça download em: https://github.com/luizbalestreri/pokebot/releases/tag/1.5
 
 Futuras implementações:
 
@@ -27,7 +27,7 @@ Modo de usar:
 
 Abra o pokemon tcg online e faça login. Entre no modo versus e deixe pronto pra jogar legado.
 
-O pokemon tcg online precisa estar no modo janela, a resolução 1920 x 1080 ainda não funciona, somente as opções 1280 e 1600. Antes de abrir o bot é preciso que o pokemon esteja aberto e maximizado.
+O pokemon tcg online precisa estar no modo janela e na resolução 1280 x 720. Antes de abrir o bot é preciso que o pokemon esteja aberto e maximizado.
 
 Abra o arquivo app.exe
 
@@ -38,4 +38,4 @@ Escolha entre cara ou coroa e apertar Start
 
 Caso o bot mova para o botão jogar na primeira vez e não comece, clique em Jogar que dai em diante irá funcionar.
 
-Para parar é só fechar a janela do bot, ou apertar em Stop
+Para parar é só fechar a janela do bot, ou apertar em Parar

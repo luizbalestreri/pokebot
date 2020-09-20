@@ -62,7 +62,7 @@ class Jogo(QThread):
 
     def BelaJogada(self):
         sizeXY = (self.wincap.get_screenshot().shape[1], self.wincap.get_screenshot().shape[0])
-        pyautogui.moveTo((sizeXY[0] + self.pos[0]) - 20, (sizeXY[1] + self.pos[1]) - 20)
+        pyautogui.moveTo((sizeXY[0] + self.pos[0]) - 25, (sizeXY[1] + self.pos[1]) - 25)
         pyautogui.click()
         msgBox = cv2.imread(self.Concat("msgBox.png"))
         xxx, yyy, confidence = self.SearchImage(msgBox)
@@ -94,6 +94,7 @@ class Jogo(QThread):
             self.NovaPartida()
 
     def WhoWon(self):
+        counter = 0
         txtPeca = cv2.imread(self.Concat("btnCoroa.png"))
         txtVocePerdeu = cv2.imread(self.Concat("txtVocePerdeuMoeda.png"))
         txtVoceVenceu = cv2.imread(self.Concat("txtVoceVenceuMoeda.png"))
@@ -116,7 +117,12 @@ class Jogo(QThread):
                     self.BelaJogada()
                 self.PlayerWon()
                 break
-    
+            counter += 1
+            print(counter)
+            if counter >= 20:
+                counter = 0
+                pyautogui.click()
+                self.TestarFinalizar()
     def PlayerWon(self): 
         btnFinalizar = cv2.imread(self.Concat("/btnFinalizar.png"))
         StartTime = time.time()
